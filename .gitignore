@@ -1,3 +1,12 @@
+# Ignore .metadata folder
+.metadata
+
+# Ignore Eclipse configuration file
+.classpath
+.gitignore
+.project
+.settings
+
 # Compiled class file
 *.class
 
