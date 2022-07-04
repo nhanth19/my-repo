@@ -1,3 +1,5 @@
+//a binding == a variable
+
 // - scope :
 //   + global scope
 //   + local scope

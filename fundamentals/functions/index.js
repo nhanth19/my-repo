@@ -33,18 +33,6 @@ let numbers = [0, 1, 2, 5, 10];
 let cube = map(f,numbers);
 console.log(cube);
 
-//nested func: "closures", inner func contains the scope of outer func, and no reverse. 
-//closures: 
-function addSquare(a,b) {
-  function square1(x) {
-    return x * x;
-  }
-  return square1(a)+square1(b);
-}
-a = addSquare(2 , 3);
-b = addSquare(3, 4);
-c = addSquare(4,5)
-
 var pet = function(name) {   // The outer funct defines a variable called "name"
   var getName = function() {
     return name;       // The inner funct has access to the "name" variable of the outer func
@@ -79,3 +67,19 @@ var a2 = a.map(function(s) {
 console.log(a2);
 var a3 = a.map(s => s.length);
 console.log(a3);
+
+//callstack : LIFO
+// when fucntion called , the current context stored on top stack -> function return , remove context
+
+//HOF : callback, closure
+//nested func: "closures", inner func contains the scope of outer func, and no reverse. 
+//closures: return inner func 
+function addSquare(a,b) {
+  function square1(x) {
+    return x * x;
+  }
+  return square1(a)+square1(b);
+}
+a = addSquare(2 , 3);
+b = addSquare(3, 4);
+c = addSquare(4,5)

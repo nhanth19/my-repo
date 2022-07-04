@@ -8,4 +8,4 @@ console.log(three);
 
 console.log(typeof one);
 
-console.log(void (5/ 2));
+console.log(void (5/ 2));   
