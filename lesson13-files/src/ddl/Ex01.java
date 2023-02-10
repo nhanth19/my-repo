@@ -12,12 +12,15 @@ public class Ex01 {
 	private static final String dirPath = "data/random";
 	
 	public static void main(String[] args) throws IOException {
+		
+		//create a file
 //		File file = FileUtils.create(path);
 //		System.out.println("file : " + file);
 		
+		//create files
 //		FileUtils.create(dirPath, 20, FileExtension.values());
 		
-		//filter
+		//filter files
 		File dirFile = new File(dirPath);
 		File[] files = dirFile.listFiles(new FileFilter() {
 			@Override
@@ -26,7 +29,6 @@ public class Ex01 {
 			} 
 			
 		});
-		FileUtils.printf(files);
 	}
 }
 

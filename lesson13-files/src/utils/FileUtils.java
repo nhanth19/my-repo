@@ -4,11 +4,21 @@ import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Properties;
 import java.util.Random;
+
+import com.fasterxml.jackson.core.exc.StreamWriteException;
+import com.fasterxml.jackson.databind.DatabindException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import common.FileExtension;
 
@@ -17,7 +27,82 @@ public class FileUtils {
 
 	private FileUtils() {
 	}
+	
+	//write json 
+	public static void writeJson(File file, Object object) {
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			mapper.writeValue(file, object);
+			System.out.println("Write file " + file.getName() + " succesful.");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//read json 
+		public static <T> T readJson(File file, Class<T> classType) {
+			T result = null;
+			ObjectMapper mapper = new ObjectMapper();
+			try {
+				result = mapper.readValue(file, classType);
+				System.out.println("Write file " + file.getName() + " succesful.");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return result;
+		}
+	
+	public static Properties getProperties(File file) {
+		Properties props = new Properties();
+		try {
+			props.load(new FileInputStream(file));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return props;
+	}
 
+	// write objects
+	public static void writeObject(File file, Object object) {
+		FileOutputStream fos = null;
+		ObjectOutputStream oos = null; 
+		try {
+			fos = new FileOutputStream(file);
+			oos = new ObjectOutputStream(fos);
+			
+			oos.writeObject(object);
+			System.out.println("Write file " + file.getName() + " successful.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			FileUtils.close(oos, fos);
+		}
+	}
+	
+	//read objects
+	public static Object readObject(File file) {
+		Object results = null;
+		FileInputStream fis = null;
+		ObjectInputStream ois = null; 
+		try {
+			fis = new FileInputStream(file);
+			ois = new ObjectInputStream(fis);
+			
+			results = ois.readObject();
+			System.out.println("Read file " + file.getName() + " successful.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			FileUtils.close(ois, fis);
+		}
+		return results;
+	}
+	
+	@SuppressWarnings({ "unchecked", "unused" })
+	public static <T> List<T> safeList(Object object) {
+		return (List<T>)object;
+	}
+	
 	// create file
 	public static File create(String path) {
 		boolean isValid = false;
@@ -97,7 +182,7 @@ public class FileUtils {
 			File file = new File(dirFile, name);
 			result[i] = createNewFile(file);
 		}
-		return result;
+		return result; 
 	}
 
 	public static void printf(File... files) {
@@ -107,6 +192,12 @@ public class FileUtils {
 
 		Arrays.stream(files).forEach(f -> System.out.println(f.getAbsoluteFile()));
 
+	}
+	
+	public static <E> void printf(List<E> lists) {
+		for(E e : lists) {
+			System.out.println(e);
+		}
 	}
 
 	public static void autoOpen(File path) {

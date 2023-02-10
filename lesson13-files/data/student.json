@@ -1,0 +1,12 @@
+[
+	{ 	
+		"id":"123",
+		"name":"LeVanDowski",
+		"languages":["Java","C","JavaScript"],
+		"points":{"Java":10,"C":8,"JavaScript":109},
+		"grade":[
+			{"id":"A1","name":"Grade A1"},
+			{"id":"B1","name":"Grade B1"}
+		]
+	}
+]
