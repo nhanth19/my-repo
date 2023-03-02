@@ -1,12 +1,21 @@
 package datetime;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+
+import utils.DateUtils;
 
 public class Ex01 {
 	private static String[] months = {"Jan","Feb","Mar","Apr","May","Jun","July","Aug","Sep","Oct","Nov","Dec"};
 	
+	private static final String PATTERN = "dd/MM/yyyy EEEE";
+	private static DateFormat df = new SimpleDateFormat(PATTERN);
+	
 	public static void main(String[] args) {
+		
 		//timezone : depend locale
 		//Date = new Date() : khai bao nhieu lan,ton memory
 		//Calendar.getIntance(): singleton pattern
@@ -16,7 +25,8 @@ public class Ex01 {
 		Date date = new Date();
 		System.out.println("date : " + date);
 		
-		Calendar c = Calendar.getInstance();
+//		Locale.setDefault(Locale.GERMANY);
+		Calendar c = Calendar.getInstance(Locale.FRANCE);
 		
 		//set time
 //		c.set(Calendar.MONTH, 0);
@@ -44,6 +54,25 @@ public class Ex01 {
 		System.out.println("daysOfYear : " + daysOfYear);
 		
 		//first day of week : depend locale
-		int firstDayOfWeek = c.getFirst
+		// FRANCE : 2 : MONDAY
+		// US : 1 : SUNDAY
+		System.out.println("Locale : " + Locale.getDefault());
+		int fdow = c.getFirstDayOfWeek();
+		System.out.println("firstDayOfWeek : " + fdow);
+		
+		c.add(Calendar.DAY_OF_MONTH, fdow - c.get(Calendar.DAY_OF_WEEK));
+		System.out.println("c : " + c);
+		
+		System.out.println("=============");
+		int dayOfIndex = 1;
+		while(dayOfIndex <= 7 ) {
+			System.out.println(df.format(c.getTime()));
+			c.add(Calendar.DAY_OF_MONTH, 1);
+			dayOfIndex++;
+		}
+		
+		//leap year
+		c.set(Calendar.YEAR, 2000);
+		System.out.println("isLeapYear : " + DateUtils.isLeapYear(c.get(Calendar.YEAR)));
 	}
 }
